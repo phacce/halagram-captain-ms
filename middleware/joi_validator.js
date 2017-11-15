@@ -4,7 +4,7 @@
 */
 const joi = require('joi');
 
-module.exports = class validator{
+module.exports = class Validator{
 
 	static joi_options(){
 		return {

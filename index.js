@@ -1,5 +1,5 @@
 /**
- * This file exports all necessary classes in this module
+ * This file exports all necessary classes in this module for easy accessibility
  */
 
 module.exports = {
@@ -21,5 +21,5 @@ module.exports = {
      * The middleware files
      */
     Cor : require('./middleware/cor'),
-    JoiParser : require('./middleware/joi_parser')  
+    JoiValidator : require('./middleware/joi_validator')  
 };

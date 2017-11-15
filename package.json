@@ -1,26 +1,26 @@
 {
-  "name": "halagram_api",
-  "version": "1.0.0",
-  "description": "Halagram Application programming Interface",
+  "name": "captain-ms",
+  "version": "0.1.0",
+  "description": "MicroService Module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/halagram/API.git"
+    "url": "git+ssh://git@gitlab.com:halagram/captain-ms.git"
   },
   "keywords": [
-    "Event",
-    "Halagram",
-    "Captain"
+    "halagram",
+    "captain",
+    "microservice"
   ],
   "author": "Ikechukwu Kalu, Bestbrain Livinus",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/halagram/API/issues"
+    "url": "https://gitlab.com/halagram/captain-ms/issues"
   },
-  "homepage": "https://gitlab.com/halagram/API#README",
+  "homepage": "https://gitlab.com/halagram/captain-ms#README",
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
@@ -32,5 +32,8 @@
     "mongoose": "^4.13.0",
     "morgan": "^1.9.0",
     "q": "^1.5.1"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1"
   }
 }

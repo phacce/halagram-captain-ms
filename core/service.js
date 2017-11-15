@@ -6,7 +6,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-const {Logger} = require('../index');
 
 const app = express();
 
@@ -14,12 +13,12 @@ module.exports = class Service {
 
 	/**
 	* Initializes the port and service name
-	* @param obj - { port : Number, name : String }
+	* @param obj - { port : Number, name : String, logger : Logger }
 	*/
 	constructor(obj) {
 		this.port = obj.port;
 		this.name = obj.name;
-		this.logger = new Logger("Service");
+		this.logger = obj.logger;
 		
 		this.setupApp();
 	}
@@ -70,7 +69,7 @@ module.exports = class Service {
 				callback();
 			}
 		}).on('error', () => {
-			this.logger.error(`${this.port} is in use`);
+			this.logger.error(`Port ${this.port} is in use`);
 			this.port += 1;
 			this.start(callback);
 		});

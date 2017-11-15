@@ -1,9 +1,9 @@
 /**
-*	Middleware for allowing Cross Origin Requests
-*	TODO: make origin, methods and headers configurable....chances of needing that???
+* Middleware for allowing Cross-Origin Requests
+* TODO: make origin, methods and headers configurable....chances of needing that???
 */
 
-module.exports = function(req, res, next) {
+module.exports = (req, res, next) => {
 
     //set headers to allow cross origin request.
     res.header("Access-Control-Allow-Origin", "*");
