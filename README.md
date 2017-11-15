@@ -1,1 +1,1 @@
-# Captain Node.js Microservice framework
+# Captain Node.js Microservice Module

@@ -6,26 +6,21 @@
 
 const mongoose = require('mongoose');
 mongoose.promise = require("q").Promise
-const {Logger} = require('../index');
 
 module.exports = class MongoDatabase {
 
 	/**
 	* creates a connection to mongoDB
 	* @param connectionObj { name : String, connection: ConnectionString or Object }
+	* @param logger the app logger
 	*/
-	constructor(connectionObj){
+	constructor(connectionObj, logger){
 		this.database = connectionObj.database || 'Database';
 		let connectionString = this.objectToString(connectionObj);
 		this.connection = mongoose.createConnection(connectionString);
-		this.logger = new Logger(this.database);
-		this.connection.on('connected',  ()=> {
-    		this.logger.debug(`Connection established to ${this.database} database`);
-		});
-		
-		this.onError();
-		this.onDisconnect();
-		this.onExit();
+		this.logger = logger;
+
+		initListeners();
 	}
 
 	/*
@@ -39,13 +34,29 @@ module.exports = class MongoDatabase {
 		return x.replace(/[\n\s+]/g, '');
 	}
 
+	/**
+	 * Initializes the database event listeners
+	 */
+	initListeners() {
+		this.onConnected();
+		this.onError();
+		this.onDisconnected();
+		this.onExit();
+	}
+
+	onConnected() {
+		this.connection.on('connected',  () => {
+    		this.logger.debug(`Connection established to ${this.database} database`);
+		});
+	}
+
 	onError(){
 		this.connection.on('error', (err) => {
     		this.logger.debug(`${this.database} database connection error: ${err}`);
 		});
 	}
 
-	onDisconnect(){
+	onDisconnected(){
 		this.connection.on('disconnected',  () => {
     		this.logger.debug(`${this.database} disconnected`);
 		});

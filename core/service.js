@@ -13,12 +13,13 @@ module.exports = class Service {
 
 	/**
 	* Initializes the port and service name
-	* @param obj - { port : Number, name : String, logger : Logger }
+	* @param obj - { port : Number, name : String }
+	* @param logger - the app logger
 	*/
-	constructor(obj) {
+	constructor(obj, logger) {
 		this.port = obj.port;
 		this.name = obj.name;
-		this.logger = obj.logger;
+		this.logger = logger;
 		
 		this.setupApp();
 	}
