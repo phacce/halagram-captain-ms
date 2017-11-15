@@ -1,0 +1,36 @@
+{
+  "name": "halagram_api",
+  "version": "1.0.0",
+  "description": "Halagram Application programming Interface",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/halagram/API.git"
+  },
+  "keywords": [
+    "Event",
+    "Halagram",
+    "Captain"
+  ],
+  "author": "Ikechukwu Kalu, Bestbrain Livinus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/halagram/API/issues"
+  },
+  "homepage": "https://gitlab.com/halagram/API#README",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "express": "^4.16.2",
+    "express-fileupload": "^0.3.0",
+    "joi": "^13.0.1",
+    "jsonwebtoken": "^8.1.0",
+    "mongoose": "^4.13.0",
+    "morgan": "^1.9.0",
+    "q": "^1.5.1"
+  }
+}
