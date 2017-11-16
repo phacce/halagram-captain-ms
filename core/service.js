@@ -82,6 +82,7 @@ module.exports = class Service {
 	*/
 	stop(){
 		this.server.close();
+		this.logger.warn(`${this.name} app stopped`);
 		return Promise.resolve();
 	}
 };

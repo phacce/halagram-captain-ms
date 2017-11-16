@@ -1,7 +1,7 @@
-const Assert = require('assert');
 const {Service} = require('../index');
+const {Logger} = require('../index');
 
-describe('Service', () => {
+describe('core.Service', () => {
 
     let service; // The test service
 
@@ -9,7 +9,7 @@ describe('Service', () => {
         service = new Service({
             name : "TestService",
             port : 3004
-        }, null /* a logger is not given as it is an independent object */ );
+        }, new Logger("Service Test") );
     });
 
     describe('#start()', () => {

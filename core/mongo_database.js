@@ -53,7 +53,7 @@ module.exports = class MongoDatabase {
 
 	onError(){
 		this.connection.on('error', (err) => {
-    		this.logger.debug(`${this.database} database connection error: ${err}`);
+    		this.logger.error(`${this.database} database connection error: ${err}`);
 		});
 	}
 
@@ -66,10 +66,17 @@ module.exports = class MongoDatabase {
 	onExit(){
 		process.on('SIGINT', () => {
     		this.connection.close( () => {
-        		this.logger.debug(`${this.database} database disconnected through app termination`);
+        		this.logger.warn(`${this.database} database disconnected through app termination`);
         		process.exit(0);
     		});
 		});
 
+	}
+
+	close() {
+		this.connection.close((err) => {
+			if (err) this.logger.error(`Failed to close database ${this.database}: ${err}`);
+			else this.logger.warn(`Connection to ${this.database} database closed`);
+		});
 	}
 };

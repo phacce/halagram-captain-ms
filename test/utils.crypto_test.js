@@ -1,7 +1,7 @@
 const {assert} = require('chai');
 const {Crypto} = require('../index');
 
-describe('Crypto', () => {
+describe('utils.Crypto', () => {
     
     describe('#hash()', () => {
         
