@@ -20,14 +20,15 @@ module.exports = class MongoDatabase {
 		this.connection = mongoose.createConnection(connectionString);
 		this.logger = logger;
 
-		initListeners();
+		this.initListeners();
 	}
 
 	/*
 	* creates a mongoDB connection string from an object
 	*/
 	objectToString(object){
-		let x = `mongodb://${object.password && encodeURIComponent(object.password)+'@' || ''}
+		let x = `mongodb://${object.username && encodeURIComponent(object.username)+':' || ''}
+		${object.password && encodeURIComponent(object.password) + '@' || ''}
 		${object.host || '127.0.0.1'}:
 		${object.port && object.port || 27017}/
 		${object.database}`;
