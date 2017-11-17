@@ -1,6 +1,6 @@
 const {assert} = require('chai');
 const {MongoDatabase} = require('../index');
-const {Logger} = require('../index');
+const FakeLogger = require('./mocks/utils.fake_logger');
 
 describe('core.MongoDatabase', () => {
 
@@ -9,7 +9,7 @@ describe('core.MongoDatabase', () => {
     before(() => {
         database = new MongoDatabase(
             { database: 'test-db' },
-            new Logger("MongoDB Test")
+            new FakeLogger("MongoDB Test")
         );
     });
 

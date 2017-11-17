@@ -66,9 +66,8 @@ module.exports = class Service {
 	start(callback){
 		this.server = app.listen(this.port, () => {
 			this.logger.debug(`${this.name} app started on port ${this.port}`);
-			if (typeof callback === 'function') {
-				callback();
-			}
+			if (typeof callback === 'function') callback();
+			return;
 		}).on('error', () => {
 			this.logger.error(`Port ${this.port} is in use`);
 			this.port += 1;
