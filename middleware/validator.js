@@ -1,6 +1,5 @@
 /**
-*	configures the joi validator and parses its errors to desired format
-*	each method returns a middleware
+* Configures the joi validator and parses its errors to desired format each method returns a middleware
 */
 const joi = require('joi');
 

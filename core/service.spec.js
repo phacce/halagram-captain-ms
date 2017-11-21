@@ -1,7 +1,6 @@
 const {assert} = require('chai');
 const {Service} = require('../index');
-const FakeLogger = require('./mocks/utils.fake_logger');
-require('mocha-sinon');
+const FakeLogger = require('../test/mocks/utils.fake_logger');
 
 describe('core.Service', () => {
 

@@ -1,0 +1,2 @@
+core/*.spec.js --recursive
+lib/**/*.spec.js --recursive

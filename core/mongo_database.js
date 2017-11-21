@@ -1,30 +1,22 @@
-/*
-*	A class to create [MongoDB] database connections, safely handle 
-*	connection parameters and perform database congifgurations
-*	mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]
-*/
-
 const mongoose = require('mongoose');
-mongoose.promise = require("q").Promise
+mongoose.promise = global.Promise
 
 module.exports = class MongoDatabase {
 
 	/**
-	* creates a connection to mongoDB
-	* @param connectionObj { name : String, connection: ConnectionString or Object }
-	* @param logger the app logger
+	* @param {Object} connectionObj { database : String, port: Number, username: String, password: String, host: String }
+	* @param {Object} logger the app logger
 	*/
 	constructor(connectionObj, logger){
 		this.database = connectionObj.database || 'Database';
-		let connectionString = this.objectToString(connectionObj);
-		this.connection = mongoose.createConnection(connectionString);
 		this.logger = logger;
-
-		this.initListeners();
+		this.connectionString = this.objectToString(connectionObj);
 	}
 
-	/*
-	* creates a mongoDB connection string from an object
+	/**
+	* Creates a mongoDB connection String from an object with connection parameters
+	* @param {Object} object the connection object
+	* @returns a connection String
 	*/
 	objectToString(object){
 		let x = `mongodb://${object.username && encodeURIComponent(object.username)+':' || ''}
@@ -33,6 +25,12 @@ module.exports = class MongoDatabase {
 		${object.port && object.port || 27017}/
 		${object.database}`;
 		return x.replace(/[\n\s+]/g, '');
+	}
+
+	open() {
+		this.connection = mongoose.createConnection(this.connectionString);
+		this.initListeners();
+		return this.connection;
 	}
 
 	/**
@@ -59,7 +57,7 @@ module.exports = class MongoDatabase {
 
 	onDisconnected(){
 		this.connection.on('disconnected',  () => {
-    		this.logger.debug(`${this.database} disconnected`);
+    		this.logger.warn(`${this.database} disconnected`);
 		});
 	}
 

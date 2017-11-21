@@ -13,8 +13,8 @@ module.exports = class Service {
 
 	/**
 	* Initializes the port and service name
-	* @param obj - { port : Number, name : String }
-	* @param logger - the app logger
+	* @param {Object} obj - { port : Number, name : String }
+	* @param {utils.Logger} logger - the app logger
 	*/
 	constructor(obj, logger) {
 		this.port = obj.port;
@@ -32,7 +32,7 @@ module.exports = class Service {
 
 	/**
 	* Sets the app routes with middlewares
-	* @param routes a route object => { '' : middleware, 'route' : routeMiddleware }
+	* @param {Object} routes a route object => { '' : middleware, 'route' : routeMiddleware }
 	*/
 	setRoutes(routes) {
 		for (let e in routes) {
@@ -61,7 +61,7 @@ module.exports = class Service {
 	* if successful. Else, if the port is taken, it recursively increments until 
 	* it finds a free port
 	*
-	* @param callback the method to invoke 
+	* @param {Function} callback the method to invoke 
 	*/
 	start(callback){
 		this.server = app.listen(this.port, () => {

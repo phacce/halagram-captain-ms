@@ -7,8 +7,9 @@ module.exports = {
      * The core files
      */
     Controller : require('./core/controller'),
-    Model : require('./core/model'),
+    MongooseDataSource : require('./core/mongoose_data_source'),
     MongoDatabase : require('./core/mongo_database'),
+    Repository: require('./core/repository'),
     Service : require('./core/service'),
     
     /**
@@ -21,5 +22,5 @@ module.exports = {
      * The middleware files
      */
     Cor : require('./middleware/cor'),
-    JoiValidator : require('./middleware/joi_validator')  
+    Validator : require('./middleware/validator')  
 };
