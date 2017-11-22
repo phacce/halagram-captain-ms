@@ -6,9 +6,8 @@ module.exports = {
     /**
      * The core files
      */
-    Controller : require('./core/controller'),
-    MongooseDataSource : require('./core/mongoose_data_source'),
     MongoDatabase : require('./core/mongo_database'),
+    MongooseDataSource : require('./core/mongoose_data_source'),
     Repository: require('./core/repository'),
     Service : require('./core/service'),
     

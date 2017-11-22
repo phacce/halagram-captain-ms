@@ -5,7 +5,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload');
+const fileUpload = require('express-fileupload'); // required for file uploads
 
 const app = express();
 
