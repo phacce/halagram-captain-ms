@@ -1,3 +1,9 @@
+/**
+ * This file contains test for a MongoDB datasource. It needs a mongodb connection to pass
+ * the tests. For CI, i have renamed this file since no database has been provisioned.
+ * Add 'core/*.spec0.js --recursive' to 'test/mocha.opts' to run this test
+ */
+
 const {assert} = require('chai');
 const {MongooseDataSource} = require('../index');
 const FakeUserSchema = require('../test/mocks/core.fake_user_schema');
