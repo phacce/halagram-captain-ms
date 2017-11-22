@@ -1,3 +1,6 @@
+files/
 node_modules/
+app.js
 npm-debug.log
 .DS_Store
+.vscode/launch.json
