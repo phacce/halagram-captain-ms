@@ -1,9 +1,11 @@
 /**
-*	A service blueprint from whch other service are created from. 
-*	Each service is an instance of this class
+* A service blueprint from whch other service are created from. 
+* Each service is an instance of this class
 */
 
 const express = require('express');
+const helmet = require('helmet');
+const compression = require('compression');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload'); // required for file uploads
 
@@ -25,6 +27,8 @@ module.exports = class Service {
 	}
 
 	setupApp() {
+		app.use(helmet());
+		app.use(compression());
 		app.use(fileUpload());
 		app.use(bodyParser.json());
 		app.use(bodyParser.urlencoded({ extended: true }));
