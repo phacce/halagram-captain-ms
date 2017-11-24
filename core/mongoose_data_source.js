@@ -13,9 +13,8 @@ module.exports = class MongoDataSource {
      * @param {core.Database} database the database to use
 	 */
 	constructor(name, schema, database){
-        mongoose.model(name, schema);
         this.database = database.open(); // db connection instance
-        this.model = this.database.model(name);
+        this.model = this.database.model(name, schema);
 	}
 
     /**
