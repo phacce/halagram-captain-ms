@@ -6,30 +6,30 @@ const joi = require('joi');
 const FileBatch = require('../lib/utils/file/file_batch');
 const FileList = require('../lib/utils/file/file_list');
 
-module.exports = class Validator{
+module.exports = class Validator {
 
-	static joi_options(){
+	static joi_options() {
 		return {
 			abortEarly : false,
 			stripUnknown: true,
 		};
 	}
 
-	static body(schema){
+	static body(schema) {
 		return this.middleware('body', schema, (req, res, err) => {
 			res.status(400).json(this.handleError(err));
 		});
 	}
 
-	static header(schema){
+	static header(schema) {
 
 	}
 
-	static query(schema){
+	static query(schema) {
 
 	}
 
-	static params(schema){
+	static params(schema) {
 
 	}
 
@@ -59,7 +59,7 @@ module.exports = class Validator{
 				req.uploads = new FileBatch(req.uploads);
 				next();
 			}
-		}
+		};
 	}
 
 	static middleware(document, schema, errCallback){
@@ -71,7 +71,7 @@ module.exports = class Validator{
 					next();
 				}
 			});
-		}
+		};
 	}
 
 	static handleError(err){
