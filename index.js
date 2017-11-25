@@ -21,5 +21,6 @@ module.exports = {
      * The middleware files
      */
     Cor : require('./middleware/cor'),
-    Validator : require('./middleware/validator')  
+    JWT: require('./middleware/jwt'),
+    Validator : require('./middleware/validator')
 };
