@@ -8,6 +8,8 @@ const helmet = require('helmet');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload'); // required for file uploads
+const jwt = require('../middleware/jwt');
+const rateLimiter = require('../lib/utils/rate_limiter');
 
 const app = express();
 
@@ -32,6 +34,26 @@ module.exports = class Service {
 		app.use(fileUpload());
 		app.use(bodyParser.json());
 		app.use(bodyParser.urlencoded({ extended: true }));
+	}
+
+	enableJWT(jwtObj) {
+		app.use(jwt({ encryptionKey: jwtObj.encryptionKey}).decrypt);
+		app.use(jwt({ secret: jwtObj.secret }).verifyToken);
+		app.use(jwt({repository: jwtObj.repository}).verifyUser);
+	}
+
+	enableRateLimiter(limiterObj) {
+		let limiter = rateLimiter({ 
+			host: limiterObj.host,
+			port: limiterObj.port,
+			environment: limiterObj.environment,
+			freeRetries: limiterObj.freeRetries,
+			minWait: limiterObj.minWait,
+			maxWait: limiterObj.maxWait,
+			lifetime: limiterObj.lifetime
+		});
+		
+		app.use(limiter.prevent);
 	}
 
 	/**

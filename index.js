@@ -16,11 +16,11 @@ module.exports = {
      */
     Crypto : require('./lib/utils/crypto'),
     Logger : require('./lib/utils/logger'),
+    JWT: require('./lib/utils/jwt'),
 
     /**
      * The middleware files
      */
     Cor : require('./middleware/cor'),
-    JWT: require('./middleware/jwt'),
     Validator : require('./middleware/validator')
 };

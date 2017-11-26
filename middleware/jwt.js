@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 module.exports = (jwtObj) => {
 
     function sendInvalidToken(response) {
-        response.status(401).json({error: "Invalid token"});
+        return response.status(401).json({error: "Invalid token"});
     }
 
     return {
@@ -25,13 +25,13 @@ module.exports = (jwtObj) => {
                     let Crypto = require('../index').Crypto;
                     let decryptedToken = Crypto.decrypt(jwtObj.encryptionKey, req.headers._token);
                     if (!decryptedToken) {
-                        sendInvalidToken(res);
+                        return sendInvalidToken(res);
                     }
                     req.captain = {};
                     req.captain._decryptedToken = decryptedToken;
                     next();
                 } catch(e) {
-                    sendInvalidToken(res);
+                    return sendInvalidToken(res);
                 }
             }
         },
@@ -47,16 +47,16 @@ module.exports = (jwtObj) => {
                     let user = jwt.verify(req.captain._decryptedToken, jwtObj.secret);
                     if (typeof(user) == "object" && user !== null) {
                         if ('id' in user) {
-                            req.auth = user
+                            req.auth = user;
                             next();
                         } else {
-                            sendInvalidToken(res);
+                            return sendInvalidToken(res);
                         }
                     } else {
-                        sendInvalidToken(res);
+                        return sendInvalidToken(res);
                     }
                 } catch(e) {
-                    sendInvalidToken(res);
+                    return sendInvalidToken(res);
                 }
             }
         },
@@ -66,7 +66,7 @@ module.exports = (jwtObj) => {
          */
         verifyUser: (req, res, next) => {
             if (!jwtObj.repository) {
-                sendInvalidToken(res);
+                return sendInvalidToken(res);
             }
             jwtObj.repository.getOne({ _id: req.auth.id }, '')
             .then((user) => {
@@ -75,16 +75,16 @@ module.exports = (jwtObj) => {
                         req.user = user;
                         next();
                     } else {
-                        sendInvalidToken(res);
+                        return sendInvalidToken(res);
                     }
                 } else {
-                    sendInvalidToken(res);
+                    return sendInvalidToken(res);
                 }
             }, (err) => {
-                sendInvalidToken(res);
+                return sendInvalidToken(res);
             })
             .catch((err) => {
-                sendInvalidToken(res);
+                return sendInvalidToken(res);
             });
         }
     };
