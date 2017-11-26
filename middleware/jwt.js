@@ -27,7 +27,8 @@ module.exports = (jwtObj) => {
                     if (!decryptedToken) {
                         sendInvalidToken(res);
                     }
-                    req.headers._decryptedToken = decryptedToken;
+                    req.captain = {};
+                    req.captain._decryptedToken = decryptedToken;
                     next();
                 } catch(e) {
                     sendInvalidToken(res);
@@ -39,11 +40,11 @@ module.exports = (jwtObj) => {
          * Middleware that verifys that the decrypted token is authentic
          */
         verifyToken: (req, res, next) => {
-            if (!req.headers._decryptedToken || !jwtObj.secret) {
+            if (!req.captain._decryptedToken || !jwtObj.secret) {
                 res.status(401).json({ error: 'Token is required' });
             } else {
                 try{
-                    let user = jwt.verify(req.headers._decryptedToken, jwtObj.secret);
+                    let user = jwt.verify(req.captain._decryptedToken, jwtObj.secret);
                     if (typeof(user) == "object" && user !== null) {
                         if ('id' in user) {
                             req.auth = user
