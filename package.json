@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com:halagram/captain-ms.git"
+    "url": "" // git+ssh://git@gitlab.com:halagram/captain-ms.git
   },
   "keywords": [
     "halagram",
