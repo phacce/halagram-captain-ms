@@ -1,6 +1,9 @@
 {
-  "name": "captain-ms",
-  "version": "0.1.0",
+  "name": "@halagram/captain-ms",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=8.9.1"
+  },
   "description": "MicroService Module",
   "main": "index.js",
   "scripts": {
