@@ -37,21 +37,21 @@ installing
     service.enableJWT({
         encryptionKey: password,
         secret: secret,
-        repository: repo
+        repository: repo // see more on creating a repository below
     });
 
     service.start();
 ```
 
-### Also, you can use limit request from same IPs
+### Also, you can limit requests from same IPs
 
 ```js
     service.enableRateLimiter({ 
         host: '127.0.0.1',
         port: 6379,
         environment: 'development',
-        freeRetries: 1,
-        minWait: 10 * 1000,
+        freeRetries: 2, // number of requests before delays
+        minWait: 10 * 1000, // 10 seconds
     });
 
     service.start();
@@ -62,7 +62,7 @@ installing
 File uploads are done as middlewares and throws errors if any occurs
 
 ```js
-    router.post('/upload', validator.files({avatar :{
+    router.post('/upload', captain.Validator.files({avatar :{
         folder : 'files', // the folder to store the files
         required : true, // this file is not optional
         max: 3, // allow a maximum of 3 files
@@ -121,7 +121,7 @@ This class can be used to generates hashes, compare them, encrypt and decrypt da
     captain.Crypto.compare('text', 'hash-of-text');
 ```
 
-The above methods return promises; where the `hash` method resolves the hash and the compare method rerurns a boolean if the hash matches the text
+The above methods return promises; where the `hash` method resolves a hash and the compare method rerurns a boolean if the hash matches the text
 
 ```js
     // to encrypt an object or string
