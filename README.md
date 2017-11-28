@@ -2,9 +2,9 @@
 
 Captain-MS which means Captain MicroService is a simple module which provides a basic setup for a microservice project.
 
-installing
+Installation
 
-        npm install @halagram/captain-ms
+        npm install @halagram/captain-ms    
 
 ## Creating a Service
 
@@ -63,7 +63,7 @@ File uploads are done as middlewares and throws errors if any occurs
 
 ```js
     router.post('/upload', captain.Validator.files({avatar :{
-        folder : 'files', // the folder to store the files
+        folder : 'media', // the folder to store the files
         required : true, // this file is not optional
         max: 3, // allow a maximum of 3 files
         len : 2, // allow only 2 files
@@ -82,21 +82,27 @@ File uploads are done as middlewares and throws errors if any occurs
 The repository abstracts the datasource implementation
 
 ```js
-    let schema = new monggose.Schema({ 
+    // create a mongoose schema
+    let schema = new mongoose.Schema({ 
         name: String,
         email: String
      });
 
+    // Initialize a captain.Logger instance
     let logger = new captain.Logger('RepoLogger');
 
+    // Create a new database and the logger to it
     let db = new captain.MongoDatabase({
         database: 'captain-test'
     }, logger);
 
+    // create a new datasource; in this case, we use a Mongoose datasource
     let dataSource = new captain.MongooseDataSource('User', schema, db);
 
+    // initialize your repository
     let repo = new captain.Repository(dataSource);
 
+    // for returning only one item,
     repo.getOne({ name: 'captain' })
     .then((user) => {
         logger.debug(user);
@@ -108,10 +114,26 @@ The repository abstracts the datasource implementation
     });
 ```
 
+other methods include
+
+```js
+    repo.add(obj) // create a new item
+ 
+    repo.getOne(paramsObj, projection) // return the first item matching the parameters
+    
+    repo.getAll(paramsObj, projection) // return all items matching the parameters
+    
+    repo.edit(paramsObj, newObj) // update the properties of the item matching the parameters
+    
+    repo.delete(paramsObj) // deletes an item matching the parameters
+```
+
+all the methods in the repository return promises that resolves or rejects with an error
+
 ## Utilities
 ### Using the Crypto Utility class
 
-This class can be used to generates hashes, compare them, encrypt and decrypt data. Ex
+This class can be used to generates hashes, compare them to raw texts, encrypt and decrypt data. Ex
 
 ```js
     // to perfprm a hash
@@ -142,6 +164,7 @@ Use the JWT utility class to generate tokens and make sure you decrypt them by u
 ## Using the Validator Middlewares
 
 ```js
+    // to perform a validation on the request body, use the body method while passing a schema
     router.all('/', captain.Validator.body(schema), (req, res, next) => {
         res.send('Validation passed');
     });
