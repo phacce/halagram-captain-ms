@@ -96,7 +96,7 @@ The repository abstracts the datasource implementation
      });
 
     // Initialize a captain.Logger instance
-    let logger = new captain.Logger('RepoLogger');
+    let logger = new captain.Logger('TestLogger');
 
     // Create a new database and the logger to it
     let db = new captain.MongoDatabase({
