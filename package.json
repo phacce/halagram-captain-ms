@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=8.9.1"
   },
-  "description": "MicroService Module",
+  "description": "A basic node.js microService module",
   "main": "index.js",
   "scripts": {
     "test": "mocha --reporter spec"
@@ -15,7 +15,7 @@
   },
   "keywords": [
     "halagram",
-    "captain",
+    "captain-ms",
     "microservice"
   ],
   "author": "Ikechukwu Kalu (ikechukwuakalu@gmail.com), Bestbrain Livinus (bestbrain10@gmail.com)",

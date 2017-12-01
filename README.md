@@ -1,10 +1,17 @@
 # A Simple Node.js Microservice Module
+[![NPM Version](https://img.shields.io/npm/v/@halagram/captain-ms.svg?style=flat)](https://www.npmjs.org/package/commander)
+[![NPM Downloads](https://img.shields.io/npm/dm/@halagram/captain-ms.svg?style=flat)](https://www.npmjs.org/package/commander)
 
 Captain-MS which means Captain MicroService is a simple module which provides a basic setup for a microservice project.
 
-Installation
-
-        npm install @halagram/captain-ms    
+## Installation
+```
+npm install @halagram/captain-ms --save
+```
+Optionally, you can also install the [CLI tool](https://www.npmjs.com/package/@halagram/captain-ms-cli) for setting up Services easily using
+```
+npm install -g @halagram/captain-ms-cli
+```
 
 ## Creating a Service
 
@@ -159,6 +166,30 @@ Use the JWT utility class to generate tokens and make sure you decrypt them by u
 
 ```js
     let token = captain.JWT.getToken({ name: 'captain', lang: 'nodejs' }, 'secret', 'encryption-key');
+```
+
+### Using the Logger
+The Logger has a constructor which receives two arguments; the first is the log tag while the second is the environment which could be 'development' or 'production'. The development environment permits logging while the production does not, as logging is done synchronously.
+
+```js
+    /** This logs some text on the console **/
+    let logger = new captain.Logger('CaptainTag', 'development');
+    logger.debug('log some debug text');
+
+    /** This does NOT log any text on the console **/
+    let logger = new captain.Logger('CaptainTag');
+    logger.debug('log some debug text');
+```
+
+The Logger has four methods:
+```js
+    logger.debug('log some debug text');
+
+    logger.warn('log some warning text', 'WarningTag'); // logs some value with the custom tag
+
+    logger.error('log some error text');
+
+    logger.trace('log some trace');
 ```
 
 ## Using the Validator Middlewares
