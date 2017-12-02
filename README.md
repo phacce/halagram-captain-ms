@@ -144,7 +144,7 @@ This class can be used to generates hashes, compare them to raw texts, encrypt a
 
 ```js
     // to perfprm a hash
-    captain.Crpypto.hash('text');
+    captain.Crypto.hash('text');
 
     // to compare a hash
     captain.Crypto.compare('text', 'hash-of-text');
@@ -154,10 +154,10 @@ The above methods return promises; where the `hash` method resolves a hash and t
 
 ```js
     // to encrypt an object or string
-    let encrypted = captain.Crpypto.encrypt('encryption-key', 'password');
+    let encrypted = captain.Crypto.encrypt('encryption-key', 'password');
 
     // to decrypt an encrypted object or string
-    let decrypted = captain.Crpypto.decrypt('encryption-key', 'encrypted-value');
+    let decrypted = captain.Crypto.decrypt('encryption-key', 'encrypted-value');
 ```
 
 ### Generating tokens
