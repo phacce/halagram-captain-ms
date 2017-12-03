@@ -22,7 +22,7 @@ module.exports = class Validator {
 	}
 
 	static header(schema) {
-		return this.middleware('header', schema, (req, res, err) => {
+		return this.middleware('headers', schema, (req, res, err) => {
 			res.status(400).json(this.handleError(err));
 		});
 	}
