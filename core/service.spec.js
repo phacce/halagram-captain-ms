@@ -1,6 +1,6 @@
 const {assert} = require('chai');
 const {Service} = require('../index');
-const FakeLogger = require('../test/mocks/utils.fake_logger');
+const {Logger} = require('../index');
 
 describe('core.Service', () => {
 
@@ -10,7 +10,7 @@ describe('core.Service', () => {
         service = new Service({
             name : "TestService",
             port : 3004
-        }, new FakeLogger("Service Test"));
+        }, new Logger("Service Test"));
     });
 
     describe('#start()', () => {

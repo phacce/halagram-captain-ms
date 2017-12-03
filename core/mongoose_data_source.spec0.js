@@ -8,7 +8,7 @@ const {assert} = require('chai');
 const {MongooseDataSource} = require('../index');
 const FakeUserSchema = require('../test/mocks/core.fake_user_schema');
 const MongoDatabase = require('./mongo_database');
-const FakeLogger = require('../test/mocks/utils.fake_logger');
+const {Logger} = require('../index');
 
 describe('core.MongooseDataSource', () => {
 
@@ -16,7 +16,7 @@ describe('core.MongooseDataSource', () => {
     let database;
 
     before(() => {
-        database = new MongoDatabase({ database: "user-test" }, new FakeLogger("Mongo DS Test"));
+        database = new MongoDatabase({ database: "user-test" }, new Logger("Mongo DS Test"));
         dataSource = new MongooseDataSource("FakeUser", FakeUserSchema, database);
     });
 
