@@ -22,15 +22,21 @@ module.exports = class Validator {
 	}
 
 	static header(schema) {
-
+		return this.middleware('header', schema, (req, res, err) => {
+			res.status(400).json(this.handleError(err));
+		});
 	}
 
 	static query(schema) {
-
+		return this.middleware('query', schema, (req, res, err) => {
+			res.status(400).json(this.handleError(err));
+		});
 	}
 
 	static params(schema) {
-
+		return this.middleware('params', schema, (req, res, err) => {
+			res.status(400).json(this.handleError(err));
+		});
 	}
 
 	/**
@@ -68,6 +74,7 @@ module.exports = class Validator {
 				if (err) {
 					errCallback(req,res,err);
 				} else {
+					req[document] = value;
 					next();
 				}
 			});
