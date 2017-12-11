@@ -26,9 +26,10 @@ module.exports = (jwtObj) => {
                     let decryptedToken = Crypto.decrypt(jwtObj.encryptionKey, req.headers._token);
                     if (!decryptedToken) {
                         return sendInvalidToken(res);
-                    }
+                    }else if(decryptedToken)
                     req.captain = {};
                     req.captain._decryptedToken = decryptedToken;
+                    
                     next();
                 } catch(e) {
                     return sendInvalidToken(res);
@@ -68,7 +69,10 @@ module.exports = (jwtObj) => {
             if (!jwtObj.repository) {
                 return sendInvalidToken(res);
             }
-            jwtObj.repository.getOne({ _id: req.auth.id }, '')
+            if(!Object.keys(jwtObj.allowed).includes(req.auth.role)){
+                return res.status(403).json({err: 'You are not authorized to use this route'})
+            }
+            jwtObj.allowed[req.auth.role].findOne({ _id: req.auth.id })
             .then((user) => {
                 if (typeof(user) == "object" && user !== null) {
                     if ('id' in user) {
@@ -86,6 +90,6 @@ module.exports = (jwtObj) => {
             .catch((err) => {
                 return sendInvalidToken(res);
             });
-        }
+        },
     };
 };
