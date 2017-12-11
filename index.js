@@ -18,6 +18,7 @@ module.exports = {
     Logger : require('./lib/utils/logger'),
     JWT: require('./lib/utils/jwt'),
     safe : require('./lib/utils/safe'),
+    
     /**
      * The middleware files
      */
