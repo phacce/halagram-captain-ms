@@ -66,8 +66,12 @@ npm install -g @halagram/captain-ms-cli
 
 ### File upload middlewares
 
-File uploads are done as middlewares and throws errors if any occurs
+File uploads are done by middlewares and throws errors if any occurs
 
+```js
+    captain.Validator.files({}, 'files'); // this uploads files to a 'files' base directory
+```
+Usage:
 ```js
     router.post('/upload', captain.Validator.files({avatar :{
         folder : 'media', // the folder to store the files
@@ -77,7 +81,7 @@ File uploads are done as middlewares and throws errors if any occurs
         min : 1, // allow a minimum of 1 file
         exclude : null, // array of file types to reject
         include : ["video", "image"] // allow image/* and video/*
-    }}), (req, res, next) => {
+    }}, 'files'), (req, res, next) => {
         req.uploads.upload(); // to perform an upload
         req.uploads.rollback(); // to perform a rollback
         res.json(req.uploads.files);

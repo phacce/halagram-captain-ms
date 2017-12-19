@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 /**
  * Handles operations relating to the JWYT middleware
  * @param {Object} jwtObj an object containing data to be used by the middleware - ex 
- *      { encryptionKey: 'snfjhuoen38nvuir',  secret: 'auh4h9h43n', repository: core.Repository}
+ *      { encryptionKey: 'snfjhuoen38nvuir',  secret: 'auh4h9h43n', allowed:{ mongoose.model}}
  */
 module.exports = (jwtObj) => {
 
@@ -66,12 +66,12 @@ module.exports = (jwtObj) => {
          * Middleware that verifies that the User actually exists
          */
         verifyUser: (req, res, next) => {
-            if (!jwtObj.repository) {
-                return sendInvalidToken(res);
-            }
+            if (!jwtObj.allowed) return sendInvalidToken(res);
+
             if(!Object.keys(jwtObj.allowed).includes(req.auth.role)){
-                return res.status(403).json({err: 'You are not authorized to use this route'})
+                return res.status(403).json({error: 'You are not authorized to use this route'})
             }
+            
             jwtObj.allowed[req.auth.role].findOne({ _id: req.auth.id })
             .then((user) => {
                 if (typeof(user) == "object" && user !== null) {

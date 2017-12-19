@@ -7,8 +7,7 @@ module.exports = {
      * The core files
      */
     MongoDatabase : require('./core/mongo_database'),
-    MongooseDataSource : require('./core/mongoose_data_source'),
-    Repository: require('./core/repository'),
+    MongooseBaseSchemaClass: require('./core/mongoose_base_schema_class'),
     Service : require('./core/service'),
     
     /**
@@ -24,5 +23,4 @@ module.exports = {
      */
     Cor : require('./middleware/cor'),
     Validator : require('./middleware/validator')
-
 };

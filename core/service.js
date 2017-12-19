@@ -39,7 +39,7 @@ module.exports = class Service {
 	enableJWT(jwtObj) {
 		app.use(jwt({ encryptionKey: jwtObj.encryptionKey}).decrypt);
 		app.use(jwt({ secret: jwtObj.secret }).verifyToken);
-		app.use(jwt({repository: jwtObj.repository}).verifyUser);
+		app.use(jwt({allowed: jwtObj.allowed}).verifyUser);
 	}
 
 	enableRateLimiter(limiterObj) {
@@ -90,6 +90,8 @@ module.exports = class Service {
 	* @param {Function} callback the method to invoke 
 	*/
 	start(callback){
+		this.catch404();
+
 		this.server = app.listen(this.port, () => {
 			this.logger.debug(`${this.name} app started on port ${this.port}`);
 			if (typeof callback === 'function') callback();
@@ -98,6 +100,12 @@ module.exports = class Service {
 			this.logger.error(`Port ${this.port} is in use`);
 			this.port += 1;
 			this.start(callback);
+		});
+	}
+
+	catch404() {
+		app.use((req, res, next) => {
+			res.status(404).json({error: `cannot ${req.method} ${req.originalUrl}`});
 		});
 	}
 
