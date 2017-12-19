@@ -104,11 +104,6 @@ The repository abstracts the datasource implementation
     // Initialize a captain.Logger instance
     let logger = new captain.Logger('TestLogger');
 
-    // Create a new database and the logger to it
-    let db = new captain.MongoDatabase({
-        database: 'captain-test'
-    }, logger);
-
 ## Utilities
 ### Using the Crypto Utility class
 
