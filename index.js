@@ -17,6 +17,8 @@ module.exports = {
     Logger : require('./lib/utils/logger'),
     JWT: require('./lib/utils/jwt'),
     safe : require('./lib/utils/safe'),
+    mongoosePopulate: require('./lib/plugins/populate'),
+    mongoosePaginate: require('./lib/plugins/paginate'),
     
     /**
      * The middleware files
