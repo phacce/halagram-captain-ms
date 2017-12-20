@@ -90,20 +90,6 @@ Usage:
     });
 ```
 
-## Using the Repository
-
-The repository abstracts the datasource implementation
-
-```js
-    // create a mongoose schema
-    let schema = new mongoose.Schema({ 
-        name: String,
-        email: String
-     });
-
-    // Initialize a captain.Logger instance
-    let logger = new captain.Logger('TestLogger');
-
 ## Utilities
 ### Using the Crypto Utility class
 
