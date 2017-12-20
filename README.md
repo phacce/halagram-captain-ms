@@ -44,7 +44,9 @@ npm install -g @halagram/captain-ms-cli
     service.enableJWT({
         encryptionKey: password,
         secret: secret,
-        repository: repo // see more on creating a repository below
+        allowed : {
+            modelName : modelObject //allowed models that will access this route or service
+        }
     });
 
     service.start();
@@ -101,45 +103,6 @@ The repository abstracts the datasource implementation
 
     // Initialize a captain.Logger instance
     let logger = new captain.Logger('TestLogger');
-
-    // Create a new database and the logger to it
-    let db = new captain.MongoDatabase({
-        database: 'captain-test'
-    }, logger);
-
-    // create a new datasource; in this case, we use a Mongoose datasource
-    let dataSource = new captain.MongooseDataSource('User', schema, db);
-
-    // initialize your repository
-    let repo = new captain.Repository(dataSource);
-
-    // for returning only one item,
-    repo.getOne({ name: 'captain' })
-    .then((user) => {
-        logger.debug(user);
-    }, (err) => {
-        logger.error(err);
-    })
-    .catch((err) => {
-        logger.error(err);
-    });
-```
-
-other methods include
-
-```js
-    repo.add(obj) // create a new item
- 
-    repo.getOne(paramsObj, projection) // return the first item matching the parameters
-    
-    repo.getAll(paramsObj, projection) // return all items matching the parameters
-    
-    repo.edit(paramsObj, newObj) // update the properties of the item matching the parameters
-    
-    repo.delete(paramsObj) // deletes an item matching the parameters
-```
-
-all the methods in the repository return promises that resolves or rejects with an error
 
 ## Utilities
 ### Using the Crypto Utility class
