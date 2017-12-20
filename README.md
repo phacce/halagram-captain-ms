@@ -122,7 +122,7 @@ Use the JWT utility class to generate tokens and make sure you decrypt them by u
 ```
 
 ### Using the Logger
-The Logger has a constructor which receives two arguments; the first is the log tag while the second is the environment which could be 'development' or 'production'. The development environment permits logging while the production does not, as logging is done synchronously.
+The Logger has a constructor which receives two arguments; the first is the log tag while the second is the environment which could be 'development' or 'production'. The development environment permits logging while the production does not, as console logging is done synchronously.
 
 ```js
     /** This logs some text on the console **/
