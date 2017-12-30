@@ -91,6 +91,7 @@ module.exports = class Service {
 	*/
 	start(callback){
 		this.catch404();
+		this.handleServerErrors();
 
 		this.server = app.listen(this.port, () => {
 			this.logger.debug(`${this.name} app started on port ${this.port}`);
@@ -106,6 +107,13 @@ module.exports = class Service {
 	catch404() {
 		app.use((req, res, next) => {
 			res.status(404).json({error: `cannot ${req.method} ${req.originalUrl}`});
+		});
+	}
+
+	handleServerErrors() {
+		app.use((err, req, res, next) => {
+			this.logger.error(err.stack);
+			res.status(500).json({error: 'An error occurred while processing the request'});
 		});
 	}
 
