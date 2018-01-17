@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=8.9.1"
   },
-  "description": "A basic node.js microService module",
+  "description": "A basic node.js MicroService module",
   "main": "index.js",
   "scripts": {
     "test": "mocha --reporter spec"
