@@ -23,8 +23,8 @@ module.exports = class Service {
 		this.port = obj.port;
 		this.name = obj.name;
 		this.logger = logger;
-		this.httpServer =  http.createServer(app);
 		this.app = express();
+		this.httpServer =  http.createServer(this.app);
 		this.setupApp();
 	}
 
