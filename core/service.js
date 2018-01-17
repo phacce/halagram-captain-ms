@@ -1,5 +1,5 @@
 /**
-* A service blueprint from whch other service are created from. 
+* A service blueprint from whch other service are created from.
 * Each service is an instance of this class
 */
 
@@ -10,8 +10,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload'); // required for file uploads
 const jwt = require('../middleware/jwt');
 const rateLimiter = require('../lib/utils/rate_limiter');
-
-const app = express();
+const http = require('http');
 
 module.exports = class Service {
 
@@ -24,26 +23,34 @@ module.exports = class Service {
 		this.port = obj.port;
 		this.name = obj.name;
 		this.logger = logger;
-		
+		this.httpServer =  http.createServer(app);
+		this.app = express();
 		this.setupApp();
 	}
 
+	loadModules(...modules){
+		modules.forEach(mod => {
+			this.app.use(mod);
+		})
+	}
+
+
 	setupApp() {
-		app.use(helmet());
-		app.use(compression());
-		app.use(fileUpload());
-		app.use(bodyParser.json());
-		app.use(bodyParser.urlencoded({ extended: true }));
+		this.app.use(helmet());
+		this.app.use(compression());
+		this.app.use(fileUpload());
+		this.app.use(bodyParser.json());
+		this.app.use(bodyParser.urlencoded({ extended: true }));
 	}
 
 	enableJWT(jwtObj) {
-		app.use(jwt({ encryptionKey: jwtObj.encryptionKey}).decrypt);
-		app.use(jwt({ secret: jwtObj.secret }).verifyToken);
-		app.use(jwt({allowed: jwtObj.allowed}).verifyUser);
+		this.app.use(jwt({ encryptionKey: jwtObj.encryptionKey}).decrypt);
+		this.app.use(jwt({ secret: jwtObj.secret }).verifyToken);
+		this.app.use(jwt({allowed: jwtObj.allowed}).verifyUser);
 	}
 
 	enableRateLimiter(limiterObj) {
-		let limiter = rateLimiter({ 
+		let limiter = rateLimiter({
 			host: limiterObj.host,
 			port: limiterObj.port,
 			environment: limiterObj.environment,
@@ -52,8 +59,8 @@ module.exports = class Service {
 			maxWait: limiterObj.maxWait,
 			lifetime: limiterObj.lifetime
 		});
-		
-		app.use(limiter.prevent);
+
+		this.app.use(limiter.prevent);
 	}
 
 	/**
@@ -62,7 +69,7 @@ module.exports = class Service {
 	*/
 	setRoutes(routes) {
 		for (let e in routes) {
-			app.use(`/${e}`, routes[e]);
+			this.app.use(`/${e}`, routes[e]);
 		}
 	}
 
@@ -78,21 +85,21 @@ module.exports = class Service {
 	* @param port the service port
 	*/
 	set port(port){
-		app.set('port', process.env.PORT || port);
+		this.app.set('port', process.env.PORT || port);
 		this._port = port;
 	}
 
 	/**
 	* Starts the Service on the specified port and then invokes the callback
-	* if successful. Else, if the port is taken, it recursively increments until 
+	* if successful. Else, if the port is taken, it recursively increments until
 	* it finds a free port
 	*
-	* @param {Function} callback the method to invoke 
+	* @param {Function} callback the method to invoke
 	*/
 	start(callback){
 		this.catch404();
 
-		this.server = app.listen(this.port, () => {
+		this.server = this.httpServer.listen(this.port, () => {
 			this.logger.debug(`${this.name} app started on port ${this.port}`);
 			if (typeof callback === 'function') callback();
 			return;
@@ -104,7 +111,7 @@ module.exports = class Service {
 	}
 
 	catch404() {
-		app.use((req, res, next) => {
+		this.app.use((req, res, next) => {
 			res.status(404).json({error: `cannot ${req.method} ${req.originalUrl}`});
 		});
 	}
