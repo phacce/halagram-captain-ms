@@ -20,10 +20,10 @@ module.exports = class Service {
 	* @param {utils.Logger} logger - the app logger
 	*/
 	constructor(obj, logger) {
+		this.app = express();
 		this.port = obj.port;
 		this.name = obj.name;
 		this.logger = logger;
-		this.app = express();
 		this.httpServer =  http.createServer(this.app);
 		this.setupApp();
 	}
@@ -118,7 +118,7 @@ module.exports = class Service {
 	}
 
 	handleServerErrors() {
-		app.use((err, req, res, next) => {
+		this.app.use((err, req, res, next) => {
 			this.logger.error(err.stack);
 			res.status(500).json({error: 'An error occurred while processing the request'});
 		});
