@@ -6,6 +6,7 @@ module.exports = {
     /**
      * The core files
      */
+    MessageQueue: require('./core/message_queue'),
     MongoDatabase : require('./core/mongo_database'),
     MongooseBaseSchemaClass: require('./core/mongoose_base_schema_class'),
     Service : require('./core/service'),
