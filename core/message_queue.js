@@ -1,6 +1,6 @@
 ///TODO: this binding for the reusable stuff
 const zmq = require('zmq');
-const Logger = require('../lib/utils/logger'); // try to get the logger from the index.js file instead
+const Logger = require('../lib/utils/logger'); //try to get the logger from the index.js file instead
 
 const environment = process.env.NODE_ENV || 'development';
 
