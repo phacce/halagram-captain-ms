@@ -1,6 +1,6 @@
 ///TODO: this binding for the reusable stuff
 const zmq = require('zmq');
-const {Logger} = require('../index');
+const Logger = require('../lib/utils/logger'); // try to get the logger from the index.js file instead
 
 const environment = process.env.NODE_ENV || 'development';
 
@@ -235,12 +235,12 @@ module.exports = o = {
     addListeners : (socket) => {
         let log  = new Logger(socket.identity, environment);
         // fd => number; ed => endpoint
-        socket.on('connect', (fd, ep) => {log.debug(`connected to ${ep} `) });
+        socket.on('connect', (fd, ep) => {log.success(`connected to ${ep} `) });
         socket.on('connect_delay', (fd, ep)  => {log.warn(`connection delay with ${ep}`);});
         socket.on('connect_retry', (fd, ep) => {log.warn(`attempting to reconnect with ${ep}`);});
         socket.on('listen', (fd, ep) => {log.debug(`now listening on ${ep}`);});
         socket.on('bind_error', (fd, ep)  => {log.error(`bind error with ${ep}`);});
-        socket.on('accept', (fd, ep) => {log.debug(`connection accepted at ${ep}`);});
+        socket.on('accept', (fd, ep) => {log.success(`connection accepted at ${ep}`);});
         socket.on('close', (fd, ep)=> {log.warn(`connection closed at ${ep}`);});
         socket.on('accept_error', (fd, ep) => {log.error(`acceptance failed at ${ep}`)});
         socket.on('close_error', (fd, ep)=> {log.error(`failed to close connection at ${ep}`);});
