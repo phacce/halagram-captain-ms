@@ -4,7 +4,7 @@ const Logger = require('../lib/utils/logger'); //try to get the logger from the 
 
 const environment = process.env.NODE_ENV || 'development';
 
-module.exports = o = {
+module.exports = mq = {
 
     /**
      * This returns a zeromq Push object
@@ -25,10 +25,10 @@ module.exports = o = {
      * acts as a broker between the requesters and responders.
      */
     Router : ({port, identity, host = "127.0.0.1"}) => {
-        o.checkParams(port, identity);
+        mq.checkParams(port, identity);
         let router =  zmq.socket('router').bindSync(`tcp://${host}:${port}`);
         router.identity = identity;
-        o.addListeners(router);
+        mq.addListeners(router);
         return router;
     },
 
@@ -37,10 +37,10 @@ module.exports = o = {
      * acts as a broker between the requesters and responders.
      */
     Dealer : ({port, identity, host = "127.0.0.1"}) => {
-        o.checkParams(port, identity);
+        mq.checkParams(port, identity);
         let dealer =  Object.create(zmq.socket('dealer').bindSync(`tcp://${host}:${port}`))
         dealer.identity = identity;
-        o.addListeners(dealer);
+        mq.addListeners(dealer);
         return dealer;
     },
 
@@ -49,8 +49,8 @@ module.exports = o = {
      */
     StartReqRepBroker: ({ router, dealer }) => {
 
-        let Router = o.Router(router);
-        let Dealer = o.Dealer(dealer);
+        let Router = mq.Router(router);
+        let Dealer = mq.Dealer(dealer);
         let log  = new Logger("", environment);
 
         Router.on('message', function() {
@@ -73,10 +73,10 @@ module.exports = o = {
      * receive messages.
      */
     Requester : ({port, identity, host="127.0.0.1", bind=false}) => {
-        o.checkParams(port, identity);
+        mq.checkParams(port, identity);
         let req =  Object.create(zmq.socket('req')[bind ? "bindSync" : "connect"](`tcp://${host}:${port}`));
         req.identity = identity;
-        o.addListeners(req);
+        mq.addListeners(req);
         req.EventListeners = {};
 
         req.addEventListener = (event, callback) => {
@@ -104,7 +104,7 @@ module.exports = o = {
      * messages. Also, receives messages based on event types.
      */
     Responder : ({port, identity ,host="127.0.0.1", bind=false, $on = true})=> {
-        o.checkParams(port, identity)
+        mq.checkParams(port, identity)
         let rep = Object.create(zmq.socket('rep')[bind ? "bindSync" : "connect"](`tcp://${host}:${port}`));
         
         rep.identity  = identity;
@@ -136,7 +136,7 @@ module.exports = o = {
             });
         }
 
-        o.addListeners(rep);
+        mq.addListeners(rep);
         return rep;
     },
 
@@ -144,11 +144,11 @@ module.exports = o = {
      * This returns a zeromq Publisher object.
      */
     Publisher : ({port, identity ,host = "127.0.0.1", bind=false}) => {
-        o.checkParams(port, identity);
+        mq.checkParams(port, identity);
         let pub =  Object.create(zmq.socket('pub')[bind ? "bindSync" : "connect"](`tcp://${host}:${port}`));
         pub.identity = identity;
         pub.publish = msg=> pub.send(JSON.stringify(msg));
-        o.addListeners(pub);
+        mq.addListeners(pub);
         return pub;
     },
 
@@ -156,11 +156,11 @@ module.exports = o = {
      * Returns a zeromq xPublisher
      */
     xPublisher : ({port, identity, host="127.0.0.1"}) => {
-        o.checkParams(port, identity);
+        mq.checkParams(port, identity);
         let pub =  zmq.socket('xpub').bindSync(`tcp://${host}:${port}`);
         pub.setsockopt(zmq.ZMQ_XPUB_VERBOSE, 1)
         pub.identity = identity;
-        o.addListeners(pub);
+        mq.addListeners(pub);
         return pub;
     },
 
@@ -168,15 +168,15 @@ module.exports = o = {
      * Returns a zeromq xSubscriber
      */
     xSubscriber : ({port, identity, host="127.0.0.1"})=>{
-        o.checkParams(port, identity);
+        mq.checkParams(port, identity);
         let sub =  zmq.socket('xsub').bindSync(`tcp://${host}:${port}`);
         sub.identity = identity;
-        o.addListeners(sub);
+        mq.addListeners(sub);
         return sub;
     },
 
     Subscriber : ({port, identity, host = "127.0.0.1", topic = "", $on = true}) => {
-        o.checkParams(port, identity);
+        mq.checkParams(port, identity);
         let sub =  Object.create(zmq.socket('sub').connect(`tcp://${host}:${port}`));
         sub.identity  = identity;
         sub.subscribe(topic);
@@ -205,7 +205,7 @@ module.exports = o = {
             });
         }
         
-        o.addListeners(sub);
+        mq.addListeners(sub);
 
         return sub;
     },
@@ -214,8 +214,8 @@ module.exports = o = {
      * This starts a broker for zeromq Publishers and Subscribers
      */
     StartPubSubBroker : (xpubArgs, xsubArgs)=>{
-        let xpub = o.xPublisher(xpubArgs);
-        let xsub = o.xSubscriber(xsubArgs);
+        let xpub = mq.xPublisher(xpubArgs);
+        let xsub = mq.xSubscriber(xsubArgs);
         zmq.proxy(xpub, xsub, null);
     },
 
