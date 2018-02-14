@@ -4,7 +4,7 @@ const Logger = require('../lib/utils/logger'); //try to get the logger from the 
 
 const environment = process.env.NODE_ENV || 'development';
 
-module.exports = mq = {
+module.exports = (mq) = {
 
     /**
      * This returns a zeromq Push object
@@ -95,7 +95,16 @@ module.exports = mq = {
             req.send(JSON.stringify(msg));
             callback = cb;
         }
-        req.on('message', res => callback(res));
+
+        req.on('message', (res) => {
+            let result;
+            try {
+                result = JSON.parse(res);
+            } catch(e) {
+                result = res;
+            }
+            callback(result);
+        });
         return req;
     },
 
