@@ -1,6 +1,5 @@
-///TODO: this binding for the reusable stuff
 const zmq = require('zmq');
-const Logger = require('../lib/utils/logger'); //try to get the logger from the index.js file instead
+const Logger = require('../lib/utils/logger');
 
 const environment = process.env.NODE_ENV || 'development';
 
@@ -47,22 +46,21 @@ module.exports = (mq) = {
     /**
      * Starts the Request-Response Broker
      */
-    StartReqRepBroker: ({ router, dealer }) => {
-
+    StartReqRepBroker: (router, dealer) => {
         let Router = mq.Router(router);
         let Dealer = mq.Dealer(dealer);
         let log  = new Logger("", environment);
 
         Router.on('message', function() {
             log.debug('router recieved a message', router.identity);
-            // get the argument passed
+            // get the passed argument
             let args = Array.apply(null, arguments);
             Dealer.send(args);
         });
 
         Dealer.on('message', function() {
             log.debug('dealer recieved a message', dealer.identity);
-            // get the argument passed
+            // get the passed argument
             let args = Array.apply(null, arguments);
             Router.send(args);
         });
@@ -243,7 +241,7 @@ module.exports = (mq) = {
      */
     addListeners : (socket) => {
         let log  = new Logger(socket.identity, environment);
-        // fd => number; ed => endpoint
+        /** fd => number; ed => endpoint **/
         socket.on('connect', (fd, ep) => {log.success(`connected to ${ep} `) });
         socket.on('connect_delay', (fd, ep)  => {log.warn(`connection delay with ${ep}`);});
         socket.on('connect_retry', (fd, ep) => {log.warn(`attempting to reconnect with ${ep}`);});
